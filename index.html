@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Lesson 16</title>
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 0;
+		}
+
+		.navigation_list {
+			display: block;
+			padding: 0;
+			margin: 0;
+			list-style: none;
+		}
+		.navigation_list li {
+			text-decoration: none;
+			font-family: sans-serif;
+			display: inline-block;
+			padding: 10px 20px;
+			background-color: #f5f4f4;
+			border-bottom: 5px solid #3f3f3f;
+
+		}
+
+		.navigation_item {
+			display: none;
+			position: relative;
+			text-decoration: none;
+		}
+		.navigation_item > ul {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			padding: 0;
+			margin: 0;
+			list-style: none;
+			display: none;
+		}
+		.navigation_item:hover > ul {
+			display: block;
+		}
+		.navigation_item > ul > li {
+			text-decoration: none;
+			width: 80%;
+		}
+	</style>
+</head>
+<body>
+	<script>
+		const listContent = [
+			{
+				text: 'List item 01'
+			},
+			{
+				text: 'List item 02'
+			},
+			{
+				text: 'List item 03',
+				className: 'navigation_item',
+				innerItems: [
+					{
+						text: 'Item 01'
+					},
+					{
+						text: 'Item 02'
+					},
+					{
+						text: 'Item 03'
+					},
+					{
+						text: 'Item 04'
+					}
+				]
+			},
+			{
+				text: 'List item 04'
+			}
+		]
+		const $nav = document.createElement('nav');
+		document.body.append($nav);
+		
+		const createList = function(arr, parent) {
+			const $ul = document.createElement('ul');
+			$ul.classList.add('navigation_list');
+			arr.forEach(listItem => {
+				const $li = document.createElement('li');
+				$li.innerText = listItem.text;
+				if(listItem.className) {
+					$li.classList.add(listItem.className);
+				}
+				if(listItem.innerItems) {
+					createList(listItem.innerItems, $li);
+				}
+				$ul.append($li);
+			});
+			parent.append($ul);
+		};
+		createList(listContent, $nav);
+	</script>
+</body>
+</html>
+
